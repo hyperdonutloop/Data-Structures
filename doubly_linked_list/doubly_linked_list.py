@@ -118,7 +118,6 @@ class DoublyLinkedList:
     the node was the head or the tail"""
     def delete(self, node):
         self.length -= 1
-        # TODO: Catch errors if list is empty or node is not in list
         #if head and tail
         if self.head is self.tail:
             self.head = None
@@ -137,7 +136,6 @@ class DoublyLinkedList:
     """Returns the highest value currently in the list"""
     def get_max(self):
         # Loop through all nodes looking for biggest value
-        # TODO: error checking
         if not self.head:
             return None
         max_value = self.head.value
