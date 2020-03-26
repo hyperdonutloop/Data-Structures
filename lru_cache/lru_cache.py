@@ -9,9 +9,13 @@ class LRUCache:
     to every node stored in the cache.
     """
     def __init__(self, limit=10):
+        # this is the max number of nodes it can hold
         self.limit = limit
+        # this is the current number of nodes it is holding
         self.size = 0
+        # the DLL that holds the key-value entries in the correct order
         self.order = DoublyLinkedList()
+        # storage dict that provides fast access to every node stored in the cache
         self.storage = dict()
 
     """
@@ -22,12 +26,28 @@ class LRUCache:
     key-value pair doesn't exist in the cache.
     """
     def get(self, key):
-        if key in self.storage:
-            node = self.storage[key]
-            self.order.move_to_end(node)
-            return node.value[1]
-        else:
+        # key is not in cache - return none
+        if key not in self.storage:
             return None
+        else:
+            # key is in cache
+            node = self.storage[key]
+            # move to most recently used
+            self.order.move_to_end(node)
+            # return value
+            return node.value[1]
+
+
+        # # if there is a key in the storage
+        # if key in self.storage:
+        #     # assigning node to the key in storage
+        #     node = self.storage[key]
+        #     # moving node to end
+        #     self.order.move_to_end(node)
+        #     # returning value associated with key
+        #     return node.value[1]
+        # else:
+        #     return None
 
     """
     Adds the given key-value pair to the cache. The newly-
@@ -40,18 +60,49 @@ class LRUCache:
     the newly-specified value.
     """
     def set(self, key, value):
+        # if item/key already exists
         if key in self.storage:
+            # overwrite the value
+            # where is the value stored?
             node = self.storage[key]
             node.value = (key, value)
+            # move to the tail (most recently used)
             self.order.move_to_end(node)
             return
-        
-        if self.size == self.limit:
-            del self.storage[self.order.head.value[0]]
-            self.order.remove_from_head()
-            self.size -= 1
 
-        self.order.add_to_tail((key, value))
+        # size is at limit
+        if len(self.order) == self.limit:
+            # evict the oldest one
+            # saved as a tuple (key, value) [0] is key
+            index_of_oldest = self.order.head.value[0]
+            del self.storage[index_of_oldest]
+            self.order.remove_from_head()
+            # add new one to the end
+        
+    
+        # add to order
+        self.order.add_to_tail((key, value)) # using a tuple bc?
+        # add it to storage
         self.storage[key] = self.order.tail
-        self.size += 1
-        print(f'self.storage: {self.storage}')
+
+        
+
+
+
+
+
+
+        # if key in self.storage:
+        #     node = self.storage[key]
+        #     node.value = (key, value)
+        #     self.order.move_to_end(node)
+        #     return
+        
+        # if self.size == self.limit:
+        #     del self.storage[self.order.head.value[0]]
+        #     self.order.remove_from_head()
+        #     self.size -= 1
+
+        # self.order.add_to_tail((key, value))
+        # self.storage[key] = self.order.tail
+        # self.size += 1
