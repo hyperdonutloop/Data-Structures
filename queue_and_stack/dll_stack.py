@@ -11,12 +11,18 @@ class Stack:
         self.storage = DoublyLinkedList()
 
     def push(self, value):
+        # increasing the size by 1
         self.size += 1
+        # adding new item to the stack. 
         self.storage.add_to_head(value)
 
     def pop(self):
+        # if there are items
         if self.size > 0:
+            # decreasing the size
             self.size -= 1
+            # calling remove from head and returning that item
+            # when you are adding and removing from a stack it's always the top one, and the top is always the head
             return self.storage.remove_from_head()
         else:
             return None
