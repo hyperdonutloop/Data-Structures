@@ -47,21 +47,28 @@ class DoublyLinkedList:
 
     def __len__(self):
         return self.length
+# implementation below this 
 
     """Wraps the given value in a ListNode and inserts it 
     as the new head of the list. Don't forget to handle 
     the old head node's previous pointer accordingly."""
     def add_to_head(self, value):
-        # first thing we did
+        # first thing we did is instantiate a new node
         new_node = ListNode(value)
         self.length += 1
         # if there is no head and tail
         if not self.head and not self.tail:
+            # this means there is only one node, therefore new_node is the head and tail?
             self.head = new_node
             self.tail = new_node
+        # otherwise (meaning if there are items already there)
         else:
+            # before I can insert new head, I need to link the previous head to new head
+            # new_node.next means the new_node reference is going to point to the current head
             new_node.next = self.head
+            # the current head will now have a pointer to the new_node
             self.head.prev = new_node
+            # then you can say the new head is the new node
             self.head = new_node
 
 
