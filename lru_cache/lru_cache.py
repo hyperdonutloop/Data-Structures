@@ -27,27 +27,17 @@ class LRUCache:
     """
     def get(self, key):
         # key is not in cache - return none
+        # this means key does not exist
         if key not in self.storage:
             return None
+        # key is in cache
         else:
-            # key is in cache
+            # assigning node to self.storage which is the dict and choosing key
             node = self.storage[key]
-            # move to most recently used
+            # because an item has been retrieved, it becomes most recently used
             self.order.move_to_end(node)
-            # return value
+            # return value at 1 because you are always adding at position 1
             return node.value[1]
-
-
-        # # if there is a key in the storage
-        # if key in self.storage:
-        #     # assigning node to the key in storage
-        #     node = self.storage[key]
-        #     # moving node to end
-        #     self.order.move_to_end(node)
-        #     # returning value associated with key
-        #     return node.value[1]
-        # else:
-        #     return None
 
     """
     Adds the given key-value pair to the cache. The newly-
@@ -62,20 +52,21 @@ class LRUCache:
     def set(self, key, value):
         # if item/key already exists
         if key in self.storage:
-            # overwrite the value
-            # where is the value stored?
+            # calling the key
             node = self.storage[key]
+            # then assigning the new value
             node.value = (key, value)
-            # move to the tail (most recently used)
+            # move to the tail/end (most recently used) because when you put in something new, it is now the most recently used
             self.order.move_to_end(node)
             return
 
         # size is at limit
         if len(self.order) == self.limit:
-            # evict the oldest one
-            # saved as a tuple (key, value) [0] is key
+            # assigning the variable t0 the oldest item(calling the key)
             index_of_oldest = self.order.head.value[0]
+            # evict the oldest one/ deleting that item
             del self.storage[index_of_oldest]
+            # 
             self.order.remove_from_head()
             # add new one to the end
         
@@ -85,24 +76,3 @@ class LRUCache:
         # add it to storage
         self.storage[key] = self.order.tail
 
-        
-
-
-
-
-
-
-        # if key in self.storage:
-        #     node = self.storage[key]
-        #     node.value = (key, value)
-        #     self.order.move_to_end(node)
-        #     return
-        
-        # if self.size == self.limit:
-        #     del self.storage[self.order.head.value[0]]
-        #     self.order.remove_from_head()
-        #     self.size -= 1
-
-        # self.order.add_to_tail((key, value))
-        # self.storage[key] = self.order.tail
-        # self.size += 1
