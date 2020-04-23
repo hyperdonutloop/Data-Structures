@@ -91,48 +91,68 @@ class BinarySearchTree:
 
     # DAY 2 Project -----------------------
 
+    # Preorder - nlr
+    # Inorder - lnr
+    # Postorder - lrn
+
     # Print all the values in order from low to high
     # Hint:  Use a recursive, depth first traversal
     def in_order_print(self, node):
         # going through left then right node values
         # printing values low to high
         if node:
+            # if there is a left node
             if node.left:
+                # calls the function again on that node.left
+                # starts over at the top (line 100) (on the current node that you are on), looking for left
+                # goes down until there is no left then ->
                 self.in_order_print(node.left)
+            # -> prints the value
             print (f'{node.value}')
+            # if there is a node on the right
             if node.right:
+                # call the function over again on that node.right
+                # starts over at the top (line 100) then looks for right (line 105 gets ingnored)
+                # then line 111 prints value of node.right
                 self.in_order_print(node.right)
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
-
-    # BFT 
-    # initialize a queue
-    # push root to queue
-    # while stack is not empty
-    # pop top item out of queue into temp
-    # print/return what you are doing
-    # if temp has right, put into queue
-    # if temp has left, put into queue
+    # Breadth first goes WIDE
     def bft_print(self, node):
+        # initialize a queue
         queue = Queue()
+        # push root to queue, it's always FIFO (mobile/mac queue)
+        # creating a node that is the root
         queue.enqueue(node)
+
         temp = queue.storage.head.value
+        # while stack is not empty
         while queue.size > 0:
+            # pop top item out of queue into temp
             temp = queue.dequeue()
+            # print/return what you are doing
             print(temp.value)
+            # if temp has right, put into queue
             if temp.right:
                 queue.enqueue(temp.right)
+            # if temp has left, put into queue
             if temp.left:
                 queue.enqueue(temp.left)
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
+    # depth first goes DEEP
     def dft_print(self, node):
+        # initializing the stack
         stack = Stack()
+        # pushing root to stack. Stack is always LIFO
         stack.push(node)
+        # 
         temp = stack.storage.head.value
+        # while stack is not empty
         while stack.size > 0:
+            # print value of 
             print(temp.value)
             if temp.right:
                 stack.push(temp.right)
